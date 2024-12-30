@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
-import ActionBox from "../Components/ActionBox";
-import CountCard from "../Components/CountCard";
-import KeyCheck from "../Components/KeyCheck";
+import ActionBox from "../components/ActionBox";
+import CountCard from "../components/CountCard";
+import KeyCheck from "../components/KeyCheck";
 
 export default function Pages() {
   return (
