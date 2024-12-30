@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
+import { useEffect, useState } from "react";
 import ActionBox from "../components/ActionBox";
 import CountCard from "../components/CountCard";
 import KeyCheck from "../components/KeyCheck";
-import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
-import { useEffect, useState } from "react";
 import { GetKeysResp } from "../types/key/GetKeysResp";
 import { Key } from "../types/key/Key";
+import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 
 export default function Dashboard() {
   const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
@@ -46,7 +46,7 @@ export default function Dashboard() {
         />
       </Box>
       <Box display={"flex"} flexGrow={0} gap={4} mt={4}>
-        <KeyCheck />
+        <KeyCheck keyList={keyList} />
         <ActionBox />
       </Box>
     </Box>

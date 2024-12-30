@@ -1,7 +1,7 @@
 export interface BaseResp {
-    errorSchema: {
-        errorCode: number
-        errorMessage: string
-    }
-    outputSchema?: any
+  errorSchema: {
+    errorCode: number;
+    errorMessage: string;
+  };
+  outputSchema?: any;
 }
