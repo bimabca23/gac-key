@@ -1,5 +1,5 @@
 import Navbar from "./components/Navbar";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/Dash";
 import "./styles.css";
 
 export default function App() {

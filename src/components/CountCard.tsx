@@ -8,7 +8,7 @@ import Typography from "@mui/material/Typography";
 import { Fragment } from "react";
 
 interface Props {
-  count: string;
+  count: number;
   text: string;
 }
 
