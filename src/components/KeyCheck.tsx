@@ -83,19 +83,19 @@ export default function KeyCheck(props: Props) {
             <Grid container spacing={2}>
               <Grid size={3}>
                 <Typography variant="h4" color="text.secondary">
-                  Name
-                </Typography>
-              </Grid>
-              <Grid size={9}>
-                <Typography variant="h4">: {key.id ? key.name : ""}</Typography>
-              </Grid>
-              <Grid size={3}>
-                <Typography variant="h4" color="text.secondary">
                   Type
                 </Typography>
               </Grid>
               <Grid size={9}>
                 <Typography variant="h4">: {key.id ? key.type : ""}</Typography>
+              </Grid>
+              <Grid size={3}>
+                <Typography variant="h4" color="text.secondary">
+                  Name
+                </Typography>
+              </Grid>
+              <Grid size={9}>
+                <Typography variant="h4">: {key.id ? key.name : ""}</Typography>
               </Grid>
               <Grid size={3}>
                 <Typography variant="h4" color="text.secondary">

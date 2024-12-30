@@ -10,6 +10,7 @@ import { Fragment } from "react";
 interface Props {
   count: number;
   text: string;
+  click(): void;
 }
 
 export default function CountCard(props: Props) {
@@ -27,7 +28,7 @@ export default function CountCard(props: Props) {
             </Typography>
           </CardContent>
           <CardActions>
-            <Button>Detail</Button>
+            <Button onClick={props.click}>Detail</Button>
           </CardActions>
         </Fragment>
       </Card>
