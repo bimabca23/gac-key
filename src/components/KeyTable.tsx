@@ -16,14 +16,25 @@ export default function KeyTable(props: Props) {
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow sx={{ "& > *": { fontWeight: "bold" } }}>
-            <TableCell align="center">#</TableCell>
-            <TableCell align="center">RFID</TableCell>
-            <TableCell align="center">Type</TableCell>
-            <TableCell align="center">Name</TableCell>
-            <TableCell align="center">Quantity</TableCell>
-            <TableCell align="center">Location</TableCell>
-            <TableCell align="center">Status</TableCell>
+          <TableRow>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              #
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              RFID
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Type
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Name
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Quantity
+            </TableCell>
+            <TableCell align="center" sx={{ fontWeight: "bold" }}>
+              Location
+            </TableCell>
           </TableRow>
         </TableHead>
         {props.keyList.length ? (
@@ -39,7 +50,6 @@ export default function KeyTable(props: Props) {
                 <TableCell align="center">{key.name}</TableCell>
                 <TableCell align="center">{key.quantity} Pcs</TableCell>
                 <TableCell align="center">{key.location}</TableCell>
-                <TableCell align="center">{key.status}</TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -48,7 +58,7 @@ export default function KeyTable(props: Props) {
             <TableRow
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
-              <TableCell align="center" colSpan={7}>
+              <TableCell align="center" colSpan={6}>
                 No Data
               </TableCell>
             </TableRow>

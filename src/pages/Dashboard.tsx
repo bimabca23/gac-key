@@ -1,13 +1,13 @@
+import { Modal, SxProps } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import ActionBox from "../components/ActionBox";
 import CountCard from "../components/CountCard";
 import KeyCheck from "../components/KeyCheck";
+import KeyTable from "../components/KeyTable";
 import { GetKeysResp } from "../types/key/GetKeysResp";
 import { Key } from "../types/key/Key";
 import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
-import { Modal, SxProps } from "@mui/material";
-import KeyTable from "../components/KeyTable";
 
 const modalStyle: SxProps = {
   position: "absolute",
@@ -73,7 +73,7 @@ export default function Dashboard() {
       </Box>
       <Box display={"flex"} flexGrow={0} gap={4} mt={4}>
         <KeyCheck keyList={keyList} />
-        <ActionBox />
+        <ActionBox keyList={keyList} setKeyList={setKeyList} />
       </Box>
       <Modal open={modalTotalKeys} onClose={() => setModalTotalKeys(false)}>
         <Box sx={{ ...modalStyle }}>

@@ -121,7 +121,7 @@ export default function KeyCheck(props: Props) {
           </CardContent>
           <CardActions>
             <FormLabel
-              htmlFor="rfid-field"
+              htmlFor="rfid-check"
               sx={{
                 width: "100%",
                 fontSize: 25,
@@ -141,11 +141,11 @@ export default function KeyCheck(props: Props) {
               }}
               onClick={() => setCheck(!check)}
             >
-              {check ? "CHECKER ON" : "CHECKER OFF"}
+              CHECKER ({check ? "ON" : "OFF"})
             </FormLabel>
             <TextField
               value={rfid}
-              id="rfid-field"
+              id="rfid-check"
               size="small"
               onChange={onChange}
               onKeyDown={onKeyDown}
