@@ -21,7 +21,7 @@ const modalStyle: SxProps = {
   p: 2,
 };
 
-export default function Dashboard() {
+export default function DashboardPage() {
   const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
   const [keyList, setKeyList] = useState<Key[]>([]);
   const [modalTotalKeys, setModalTotalKeys] = useState<boolean>(false);

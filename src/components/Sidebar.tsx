@@ -6,6 +6,7 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   open: boolean;
@@ -13,6 +14,8 @@ interface Props {
 }
 
 export default function Sidebar(props: Props) {
+  const navigate = useNavigate();
+
   const toggleDrawer = (newOpen: boolean) => () => {
     props.setOpen(newOpen);
   };
@@ -21,11 +24,19 @@ export default function Sidebar(props: Props) {
     <Box sx={{ width: 250 }} role="presentation" onClick={toggleDrawer(false)}>
       <List>
         <ListItem disablePadding>
-          <ListItemButton>
+          <ListItemButton onClick={() => navigate("/")}>
             <ListItemIcon>
               <DashboardIcon />
             </ListItemIcon>
             <ListItemText primary={"Dashboard"} />
+          </ListItemButton>
+        </ListItem>
+        <ListItem disablePadding>
+          <ListItemButton onClick={() => navigate("/history")}>
+            <ListItemIcon>
+              <DashboardIcon />
+            </ListItemIcon>
+            <ListItemText primary={"History"} />
           </ListItemButton>
         </ListItem>
       </List>
