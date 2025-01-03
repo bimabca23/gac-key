@@ -7,6 +7,7 @@ import CountCard from "../components/CountCard";
 import HistoryTable from "../components/HistoryTable";
 import KeyCheck from "../components/KeyCheck";
 import KeyTable from "../components/KeyTable";
+import ReturnForm from "../components/ReturnForm";
 import { BorrowReq } from "../types/borrow/BorrowReq";
 import { BorrowResp } from "../types/borrow/BorrowResp";
 import { GetHistorysResp } from "../types/history/GetHistorysResp";
@@ -15,6 +16,8 @@ import { GetKeysResp } from "../types/key/GetKeysResp";
 import { Key } from "../types/key/Key";
 import { GetPicsResp } from "../types/pic/GetPicsResp";
 import { Pic } from "../types/pic/Pic";
+import { ReturnReq } from "../types/return/ReturnReq";
+import { ReturnResp } from "../types/return/ReturnResp";
 import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 
 const modalStyle: SxProps = {
@@ -36,7 +39,7 @@ export default function DashboardPage() {
   const [picList, setPicList] = useState<Pic[]>([]);
   const [modalTotalKeys, setModalTotalKeys] = useState<boolean>(false);
   const [modalMainKeys, setModalMainKeys] = useState<boolean>(false);
-  const [modalSpareKeys, setModalSpareKeys] = useState<boolean>(false);
+  const [modalHistory, setModalHistorys] = useState<boolean>(false);
   const [modalUnavailableKeys, setModalUnavailableKeys] =
     useState<boolean>(false);
   const [selectedPic, setSelectedPic] = useState<Pic>({
@@ -102,7 +105,31 @@ export default function DashboardPage() {
         next: (response: BorrowResp) => {
           if (response.errorSchema.errorCode === 200) {
             setActionType(undefined);
-            setHistoryList([...historyList, ...response.outputSchema])
+            setHistoryList([...historyList, ...response.outputSchema]);
+          }
+        },
+      });
+  };
+
+  const returnKey = (request: ReturnReq): void => {
+    useCaseFactory
+      .return()
+      .execute(request)
+      .subscribe({
+        next: (response: ReturnResp) => {
+          if (response.errorSchema.errorCode === 200) {
+            setActionType(undefined);
+            const newHistoryList: History[] = historyList.map((history) => {
+              const replaceHistory: History | undefined =
+                response.outputSchema.find(
+                  (history2) => history.id === history2.id
+                );
+              if (replaceHistory) {
+                return replaceHistory;
+              }
+              return history;
+            });
+            setHistoryList(newHistoryList);
           }
         },
       });
@@ -122,12 +149,17 @@ export default function DashboardPage() {
           click={() => setModalMainKeys(true)}
         />
         <CountCard
-          count={keyList.filter((key) => key.type === "Spare").length}
-          text="Spare Keys"
-          click={() => setModalSpareKeys(true)}
+          count={
+            historyList.filter((history) => history.status === "Inactive")
+              .length
+          }
+          text="Historys"
+          click={() => setModalHistorys(true)}
         />
         <CountCard
-          count={historyList.filter((history) => history.status === "Active").length}
+          count={
+            historyList.filter((history) => history.status === "Active").length
+          }
           text="Unavailable Keys"
           click={() => setModalUnavailableKeys(true)}
         />
@@ -152,9 +184,13 @@ export default function DashboardPage() {
           <KeyTable keyList={keyList.filter((key) => key.type === "Main")} />
         </Box>
       </Modal>
-      <Modal open={modalSpareKeys} onClose={() => setModalSpareKeys(false)}>
+      <Modal open={modalHistory} onClose={() => setModalHistorys(false)}>
         <Box sx={{ ...modalStyle }}>
-          <KeyTable keyList={keyList.filter((key) => key.type === "Spare")} />
+          <HistoryTable
+            historyList={historyList.filter(
+              (history) => history.status === "Inactive"
+            )}
+          />
         </Box>
       </Modal>
       <Modal
@@ -162,7 +198,11 @@ export default function DashboardPage() {
         onClose={() => setModalUnavailableKeys(false)}
       >
         <Box sx={{ ...modalStyle }}>
-          <HistoryTable historyList={historyList.filter(history => history.status === "Active")}/>
+          <HistoryTable
+            historyList={historyList.filter(
+              (history) => history.status === "Active"
+            )}
+          />
         </Box>
       </Modal>
       <Modal
@@ -183,7 +223,15 @@ export default function DashboardPage() {
         onClose={() => setActionType(undefined)}
       >
         <Box sx={{ ...modalStyle }}>
-          <>Modal Pengembalian {selectedPic.initial}</>
+          <ReturnForm
+            keyList={keyList}
+            selectedPic={selectedPic}
+            historyList={historyList.filter(
+              (history) => history.status === "Active"
+            )}
+            returnKey={returnKey}
+            onClose={() => setActionType(undefined)}
+          />
         </Box>
       </Modal>
     </Box>
