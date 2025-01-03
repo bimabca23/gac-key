@@ -100,18 +100,18 @@ export default function HistoryTable(props: Props) {
                 <TableCell align="center">{history.key.name}</TableCell>
                 <TableCell align="center">{history.purpose}</TableCell>
                 <TableCell align="center">
-                  {moment(history.borrowTime).utc().format("DD/MM/YY")}
+                  {moment(history.borrowTime).utcOffset(7).format("DD/MM/YY")}
                 </TableCell>
                 <TableCell align="center">
-                  {moment(history.borrowTime).utc().format("HH:mm")}
+                  {moment(history.borrowTime).utcOffset(7).format("HH:mm")}
                 </TableCell>
                 <TableCell align="center">{history.borrowPic}</TableCell>
                 <TableCell align="center">{history.borrowSoc}</TableCell>
                 <TableCell align="center">
-                  {moment(history.returnTime).utc().format("DD/MM/YY")}
+                  {history.returnTime === "" ? "" : moment(history.returnTime).utcOffset(7).format("DD/MM/YY")}
                 </TableCell>
                 <TableCell align="center">
-                  {moment(history.returnTime).utc().format("HH:mm")}
+                  {history.returnTime === "" ? "" : moment(history.returnTime).utcOffset(7).format("HH:mm")}
                 </TableCell>
                 <TableCell align="center">{history.returnPic}</TableCell>
                 <TableCell align="center">{history.returnSoc}</TableCell>

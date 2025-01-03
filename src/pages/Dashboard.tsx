@@ -2,11 +2,19 @@ import { Modal, SxProps } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import ActionBox from "../components/ActionBox";
+import BorrowForm from "../components/BorrowForm";
 import CountCard from "../components/CountCard";
+import HistoryTable from "../components/HistoryTable";
 import KeyCheck from "../components/KeyCheck";
 import KeyTable from "../components/KeyTable";
+import { BorrowReq } from "../types/borrow/BorrowReq";
+import { BorrowResp } from "../types/borrow/BorrowResp";
+import { GetHistorysResp } from "../types/history/GetHistorysResp";
+import { History } from "../types/history/History";
 import { GetKeysResp } from "../types/key/GetKeysResp";
 import { Key } from "../types/key/Key";
+import { GetPicsResp } from "../types/pic/GetPicsResp";
+import { Pic } from "../types/pic/Pic";
 import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 
 const modalStyle: SxProps = {
@@ -24,14 +32,27 @@ const modalStyle: SxProps = {
 export default function DashboardPage() {
   const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
   const [keyList, setKeyList] = useState<Key[]>([]);
+  const [historyList, setHistoryList] = useState<History[]>([]);
+  const [picList, setPicList] = useState<Pic[]>([]);
   const [modalTotalKeys, setModalTotalKeys] = useState<boolean>(false);
   const [modalMainKeys, setModalMainKeys] = useState<boolean>(false);
   const [modalSpareKeys, setModalSpareKeys] = useState<boolean>(false);
   const [modalUnavailableKeys, setModalUnavailableKeys] =
     useState<boolean>(false);
+  const [selectedPic, setSelectedPic] = useState<Pic>({
+    id: 0,
+    rfid: "",
+    name: "",
+    initial: "",
+  });
+  const [actionType, setActionType] = useState<"Borrow" | "Return" | undefined>(
+    undefined
+  );
 
   useEffect(() => {
     getKeys();
+    getHistorys();
+    getPics();
   }, []);
 
   const getKeys = (): void => {
@@ -42,6 +63,46 @@ export default function DashboardPage() {
         next: (response: GetKeysResp) => {
           if (response.errorSchema.errorCode === 200) {
             setKeyList(response.outputSchema);
+          }
+        },
+      });
+  };
+
+  const getHistorys = (): void => {
+    useCaseFactory
+      .getHistorys()
+      .execute()
+      .subscribe({
+        next: (response: GetHistorysResp) => {
+          if (response.errorSchema.errorCode === 200) {
+            setHistoryList(response.outputSchema);
+          }
+        },
+      });
+  };
+
+  const getPics = (): void => {
+    useCaseFactory
+      .getPics()
+      .execute()
+      .subscribe({
+        next: (response: GetPicsResp) => {
+          if (response.errorSchema.errorCode === 200) {
+            setPicList(response.outputSchema);
+          }
+        },
+      });
+  };
+
+  const borrowKey = (request: BorrowReq): void => {
+    useCaseFactory
+      .borrow()
+      .execute(request)
+      .subscribe({
+        next: (response: BorrowResp) => {
+          if (response.errorSchema.errorCode === 200) {
+            setActionType(undefined);
+            setHistoryList([...historyList, ...response.outputSchema])
           }
         },
       });
@@ -66,14 +127,20 @@ export default function DashboardPage() {
           click={() => setModalSpareKeys(true)}
         />
         <CountCard
-          count={keyList.filter((key) => key.status === "Not Available").length}
+          count={historyList.filter((history) => history.status === "Active").length}
           text="Unavailable Keys"
           click={() => setModalUnavailableKeys(true)}
         />
       </Box>
       <Box display={"flex"} flexGrow={0} gap={4} mt={4}>
         <KeyCheck keyList={keyList} />
-        <ActionBox keyList={keyList} setKeyList={setKeyList} />
+        <ActionBox
+          picList={picList}
+          selectedPic={(pic: Pic) => setSelectedPic(pic)}
+          setActionType={(actionType: "Borrow" | "Return" | undefined) =>
+            setActionType(actionType)
+          }
+        />
       </Box>
       <Modal open={modalTotalKeys} onClose={() => setModalTotalKeys(false)}>
         <Box sx={{ ...modalStyle }}>
@@ -95,9 +162,28 @@ export default function DashboardPage() {
         onClose={() => setModalUnavailableKeys(false)}
       >
         <Box sx={{ ...modalStyle }}>
-          <KeyTable
-            keyList={keyList.filter((key) => key.status === "Not Available")}
+          <HistoryTable historyList={historyList.filter(history => history.status === "Active")}/>
+        </Box>
+      </Modal>
+      <Modal
+        open={actionType === "Borrow"}
+        onClose={() => setActionType(undefined)}
+      >
+        <Box sx={{ ...modalStyle }}>
+          <BorrowForm
+            keyList={keyList}
+            selectedPic={selectedPic}
+            borrowKey={borrowKey}
+            onClose={() => setActionType(undefined)}
           />
+        </Box>
+      </Modal>
+      <Modal
+        open={actionType === "Return"}
+        onClose={() => setActionType(undefined)}
+      >
+        <Box sx={{ ...modalStyle }}>
+          <>Modal Pengembalian {selectedPic.initial}</>
         </Box>
       </Modal>
     </Box>

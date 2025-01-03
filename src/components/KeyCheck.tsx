@@ -139,7 +139,6 @@ export default function KeyCheck(props: Props) {
                   "100%": { transform: "scale(1)", opacity: 1 },
                 },
               }}
-              onClick={() => setCheck(!check)}
             >
               CHECKER ({check ? "ON" : "OFF"})
             </FormLabel>

@@ -5,11 +5,12 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import { ChangeEvent, Fragment, KeyboardEvent, useState } from "react";
-import { Key } from "../types/key/Key";
+import { Pic } from "../types/pic/Pic";
 
 export interface Props {
-  keyList: Key[];
-  setKeyList(keyList: Key[]): void;
+  picList: Pic[];
+  selectedPic(pic: Pic): void;
+  setActionType(actionType: "Borrow" | "Return" | undefined): void;
 }
 
 export default function ActionBox(props: Props) {
@@ -17,14 +18,6 @@ export default function ActionBox(props: Props) {
   const [rfidBorrow, setRfidBorrow] = useState<string>("");
   const [return_, setReturn] = useState<boolean>(false);
   const [rfidReturn, setRfidReturn] = useState<string>("");
-
-  const borrowKey = (rfid: string): void => {
-    props.setKeyList(
-      props.keyList.map((key) =>
-        key.rfid === rfid ? { ...key, status: "Not Available" } : key
-      )
-    );
-  };
 
   const onChangeBorrow = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -34,22 +27,20 @@ export default function ActionBox(props: Props) {
 
   const onKeyDownBorrow = (e: KeyboardEvent<HTMLDivElement>): void => {
     if (e.key === "Enter") {
-      borrowKey(rfidBorrow);
-      setRfidBorrow("");
+      const pic: Pic | undefined = props.picList.find(
+        (pic) => pic.rfid === rfidBorrow
+      );
+      if (pic) {
+        props.selectedPic(pic);
+        props.setActionType("Borrow");
+        setRfidBorrow("");
+      }
     }
   };
 
   const onFocusBorrow = (): void => setBorrow(true);
 
   const onBlurBorrow = (): void => setBorrow(false);
-
-  const returnKey = (rfid: string): void => {
-    props.setKeyList(
-      props.keyList.map((key) =>
-        key.rfid === rfid ? { ...key, status: "Available" } : key
-      )
-    );
-  };
 
   const onChangeReturn = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -59,8 +50,14 @@ export default function ActionBox(props: Props) {
 
   const onKeyDownReturn = (e: KeyboardEvent<HTMLDivElement>): void => {
     if (e.key === "Enter") {
-      returnKey(rfidReturn);
-      setRfidReturn("");
+      const pic: Pic | undefined = props.picList.find(
+        (pic) => pic.rfid === rfidReturn
+      );
+      if (pic) {
+        props.selectedPic(pic);
+        props.setActionType("Return");
+        setRfidReturn("");
+      }
     }
   };
 
@@ -100,7 +97,7 @@ export default function ActionBox(props: Props) {
               }}
               onClick={() => setBorrow(!borrow)}
             >
-              KEY BORROW ({borrow ? "ON" : "OFF"})
+              PEMINJAMAN
             </FormLabel>
             <TextField
               value={rfidBorrow}
@@ -138,7 +135,7 @@ export default function ActionBox(props: Props) {
               }}
               onClick={() => setReturn(!return_)}
             >
-              KEY RETURN ({return_ ? "ON" : "OFF"})
+              PENGEMBALIAN
             </FormLabel>
             <TextField
               value={rfidReturn}
