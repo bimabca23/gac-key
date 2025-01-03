@@ -1,3 +1,4 @@
+import { BorrowUseCase, BorrowUseCaseImpl } from "./borrow/BorrowUseCase";
 import {
   GetHistorysUseCase,
   GetHistorysUseCaseImpl,
@@ -9,6 +10,7 @@ export interface UseCaseFactory {
   getKeys(): GetKeysUseCase;
   getHistorys(): GetHistorysUseCase;
   getPics(): GetPicsUseCase;
+  borrow(): BorrowUseCase;
 }
 
 export class UseCaseFactoryImpl implements UseCaseFactory {
@@ -20,5 +22,8 @@ export class UseCaseFactoryImpl implements UseCaseFactory {
   }
   getPics(): GetPicsUseCase {
     return new GetPicsUseCaseImpl();
+  }
+  borrow(): BorrowUseCase {
+    return new BorrowUseCaseImpl();
   }
 }
