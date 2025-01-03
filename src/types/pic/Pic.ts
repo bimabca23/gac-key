@@ -1,6 +1,6 @@
 export interface Pic {
-    id: number
-    rfid: string
-    name: string
-    initial: string
+    id: number;
+    rfid: string;
+    name: string;
+    initial: string;
 }

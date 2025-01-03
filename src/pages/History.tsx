@@ -6,29 +6,29 @@ import { History } from "../types/history/History";
 import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 
 export default function HistoryPage() {
-  const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
-  const [historyList, setHistoryList] = useState<History[]>([]);
+    const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
+    const [historyList, setHistoryList] = useState<History[]>([]);
 
-  useEffect(() => {
-    getHistorys();
-  }, []);
+    useEffect(() => {
+        getHistorys();
+    }, []);
 
-  const getHistorys = (): void => {
-    useCaseFactory
-      .getHistorys()
-      .execute()
-      .subscribe({
-        next: (response: GetHistorysResp) => {
-          if (response.errorSchema.errorCode === 200) {
-            setHistoryList(response.outputSchema);
-          }
-        },
-      });
-  };
+    const getHistorys = (): void => {
+        useCaseFactory
+            .getHistorys()
+            .execute()
+            .subscribe({
+                next: (response: GetHistorysResp) => {
+                    if (response.errorSchema.errorCode === 200) {
+                        setHistoryList(response.outputSchema);
+                    }
+                },
+            });
+    };
 
-  return (
-    <Box p={5}>
-      <HistoryTable historyList={historyList} />
-    </Box>
-  );
+    return (
+        <Box p={5}>
+            <HistoryTable historyList={historyList} />
+        </Box>
+    );
 }
