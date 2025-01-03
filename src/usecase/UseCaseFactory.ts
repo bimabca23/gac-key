@@ -5,12 +5,14 @@ import {
 } from "./history/GetHistorysUseCase";
 import { GetKeysUseCase, GetKeysUseCaseImpl } from "./key/GetKeysUseCase";
 import { GetPicsUseCase, GetPicsUseCaseImpl } from "./pic/GetPicsUseCase";
+import { ReturnUseCase, ReturnUseCaseImpl } from "./return/ReturnUseCase";
 
 export interface UseCaseFactory {
   getKeys(): GetKeysUseCase;
   getHistorys(): GetHistorysUseCase;
   getPics(): GetPicsUseCase;
   borrow(): BorrowUseCase;
+  return(): ReturnUseCase;
 }
 
 export class UseCaseFactoryImpl implements UseCaseFactory {
@@ -25,5 +27,8 @@ export class UseCaseFactoryImpl implements UseCaseFactory {
   }
   borrow(): BorrowUseCase {
     return new BorrowUseCaseImpl();
+  }
+  return(): ReturnUseCase {
+    return new ReturnUseCaseImpl();
   }
 }
