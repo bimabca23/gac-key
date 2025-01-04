@@ -21,7 +21,6 @@ export default function KeyCheck(props: Props) {
         name: "",
         quantity: 0,
         location: "",
-        status: "Available",
     });
 
     const getKey = (rfid: string): void => {
@@ -36,7 +35,6 @@ export default function KeyCheck(props: Props) {
                 name: "",
                 quantity: 0,
                 location: "",
-                status: "Available",
             }
         );
     };
@@ -120,7 +118,6 @@ export default function KeyCheck(props: Props) {
                                     name: "",
                                     quantity: 0,
                                     location: "",
-                                    status: "Available",
                                 })
                             }
                             fullWidth

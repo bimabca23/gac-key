@@ -36,7 +36,6 @@ export default function ReturnForm(props: Props) {
         name: "",
         quantity: 0,
         location: "",
-        status: "Available",
     });
 
     const selectHistory = (rfid: string): void => {

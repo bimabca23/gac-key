@@ -5,5 +5,4 @@ export interface Key {
     name: string;
     quantity: number;
     location: string;
-    status: "Available" | "Not Available";
 }

@@ -47,7 +47,6 @@ export default function BorrowForm(props: Props) {
             name: "",
             quantity: 0,
             location: "",
-            status: "Available",
         };
     };
 
