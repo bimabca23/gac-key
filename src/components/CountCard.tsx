@@ -22,8 +22,8 @@ export default function CountCard(props: Props) {
             >
                 <Fragment>
                     <CardContent>
-                        <Typography variant="h2">{props.count}</Typography>
-                        <Typography variant="h4" color={colors.grey[700]}>
+                        <Typography fontSize={60}>{props.count}</Typography>
+                        <Typography fontSize={30} color={colors.grey[700]}>
                             {props.text}
                         </Typography>
                     </CardContent>

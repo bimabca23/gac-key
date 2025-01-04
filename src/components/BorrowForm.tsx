@@ -4,19 +4,20 @@ import {
     Grid2 as Grid,
     TextField,
     Typography,
-} from '@mui/material';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import moment from 'moment';
-import { ChangeEvent, KeyboardEvent, useRef, useState } from 'react';
-import { BorrowReq } from '../types/borrow/BorrowReq';
-import { Key } from '../types/key/Key';
-import { Pic } from '../types/pic/Pic';
+} from "@mui/material";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import moment from "moment";
+import { ChangeEvent, useState } from "react";
+import { BorrowReq } from "../types/borrow/BorrowReq";
+import { Key } from "../types/key/Key";
+import { Pic } from "../types/pic/Pic";
+import RfidButton from "./RfidButton";
 
 interface Props {
     keyList: Key[];
@@ -33,10 +34,7 @@ export default function BorrowForm(props: Props) {
         time: moment().toISOString(),
         keyList: [],
     });
-    const [check, setCheck] = useState<boolean>(false);
     const [rfid, setRfid] = useState<string>("");
-
-    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const lastKey = (): Key => {
         if (borrowReq.keyList.length) {
@@ -68,27 +66,6 @@ export default function BorrowForm(props: Props) {
                 return prevBorrowReq;
             });
         }
-    };
-
-    const onChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ): void => {
-        setRfid(e.target.value);
-    };
-
-    const onKeyDown = (e: KeyboardEvent<HTMLDivElement>): void => {
-        if (e.key === "Enter") {
-            selectKey(rfid);
-            setRfid("");
-        }
-    };
-
-    const onFocus = (): void => {
-        setCheck(true);
-    };
-
-    const onBlur = (): void => {
-        setCheck(false);
     };
 
     const isValid = (): boolean => {
@@ -308,39 +285,11 @@ export default function BorrowForm(props: Props) {
                 </Grid>
             </Grid>
             <Box>
-                <TextField
-                    inputRef={inputRef}
-                    value={rfid}
-                    size="small"
-                    onChange={onChange}
-                    onKeyDown={onKeyDown}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    sx={{
-                        position: "absolute",
-                        left: -1000,
-                    }}
+                <RfidButton
+                    rfid={rfid}
+                    setRfid={setRfid}
+                    onEnter={() => selectKey(rfid)}
                 />
-                <Button
-                    variant="contained"
-                    size="large"
-                    color={check ? "success" : "error"}
-                    sx={{
-                        animation: check ? "ping 1s infinite" : "none",
-                        "@keyframes ping": {
-                            "0%": { opacity: 1 },
-                            "50%": { opacity: 0.75 },
-                            "100%": { opacity: 1 },
-                        },
-                    }}
-                    onClick={() => {
-                        if (inputRef.current) {
-                            inputRef.current.focus();
-                        }
-                    }}
-                >
-                    RFID ({check ? "ON" : "OFF"})
-                </Button>
                 <Button
                     variant="contained"
                     size="large"

@@ -1,24 +1,24 @@
-import { Modal, SxProps } from '@mui/material';
-import Box from '@mui/material/Box';
-import { useEffect, useState } from 'react';
-import ActionBox from '../components/ActionBox';
-import BorrowForm from '../components/BorrowForm';
-import CountCard from '../components/CountCard';
-import HistoryTable from '../components/HistoryTable';
-import KeyCheck from '../components/KeyCheck';
-import KeyTable from '../components/KeyTable';
-import ReturnForm from '../components/ReturnForm';
-import { BorrowReq } from '../types/borrow/BorrowReq';
-import { BorrowResp } from '../types/borrow/BorrowResp';
-import { GetHistorysResp } from '../types/history/GetHistorysResp';
-import { History } from '../types/history/History';
-import { GetKeysResp } from '../types/key/GetKeysResp';
-import { Key } from '../types/key/Key';
-import { GetPicsResp } from '../types/pic/GetPicsResp';
-import { Pic } from '../types/pic/Pic';
-import { ReturnReq } from '../types/return/ReturnReq';
-import { ReturnResp } from '../types/return/ReturnResp';
-import { UseCaseFactory, UseCaseFactoryImpl } from '../usecase/UseCaseFactory';
+import { Modal, SxProps, Typography } from "@mui/material";
+import Box from "@mui/material/Box";
+import { useEffect, useState } from "react";
+import ActionBox from "../components/ActionBox";
+import BorrowForm from "../components/BorrowForm";
+import CountCard from "../components/CountCard";
+import HistoryTable from "../components/HistoryTable";
+import KeyCheck from "../components/KeyCheck";
+import KeyTable from "../components/KeyTable";
+import ReturnForm from "../components/ReturnForm";
+import { BorrowReq } from "../types/borrow/BorrowReq";
+import { BorrowResp } from "../types/borrow/BorrowResp";
+import { GetHistorysResp } from "../types/history/GetHistorysResp";
+import { History } from "../types/history/History";
+import { GetKeysResp } from "../types/key/GetKeysResp";
+import { Key } from "../types/key/Key";
+import { GetPicsResp } from "../types/pic/GetPicsResp";
+import { Pic } from "../types/pic/Pic";
+import { ReturnReq } from "../types/return/ReturnReq";
+import { ReturnResp } from "../types/return/ReturnResp";
+import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 
 const modalStyle: SxProps = {
     position: "absolute",
@@ -142,6 +142,9 @@ export default function DashboardPage() {
 
     return (
         <Box p={5}>
+            <Typography fontSize={35} mb={2}>
+                Dashboard
+            </Typography>
             <Box display={"flex"} flexGrow={0} gap={4}>
                 <CountCard
                     count={keyList.length}

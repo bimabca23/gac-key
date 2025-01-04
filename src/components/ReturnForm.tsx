@@ -1,11 +1,4 @@
-import {
-    Box,
-    Button,
-    Grid2 as Grid,
-    TextField,
-    Typography,
-    colors,
-} from "@mui/material";
+import { Box, Button, Grid2 as Grid, Typography, colors } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -14,11 +7,12 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import moment from "moment";
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import { useState } from "react";
 import { History } from "../types/history/History";
 import { Key } from "../types/key/Key";
 import { Pic } from "../types/pic/Pic";
 import { ReturnReq } from "../types/return/ReturnReq";
+import RfidButton from "./RfidButton";
 
 interface Props {
     keyList: Key[];
@@ -34,7 +28,6 @@ export default function ReturnForm(props: Props) {
         time: moment().toISOString(),
         historyList: props.historyList,
     });
-    const [check, setCheck] = useState<boolean>(false);
     const [rfid, setRfid] = useState<string>("");
     const [selectedKey, setSelectedKey] = useState<Key>({
         id: 0,
@@ -45,8 +38,6 @@ export default function ReturnForm(props: Props) {
         location: "",
         status: "Available",
     });
-
-    const inputRef = useRef<HTMLInputElement | null>(null);
 
     const selectHistory = (rfid: string): void => {
         const newHistory: History[] = returnReq.historyList.map((history) => {
@@ -60,27 +51,6 @@ export default function ReturnForm(props: Props) {
             return history;
         });
         setReturnReq({ ...returnReq, historyList: newHistory });
-    };
-
-    const onChange = (
-        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ): void => {
-        setRfid(e.target.value);
-    };
-
-    const onKeyDown = (e: KeyboardEvent<HTMLDivElement>): void => {
-        if (e.key === "Enter") {
-            selectHistory(rfid);
-            setRfid("");
-        }
-    };
-
-    const onFocus = (): void => {
-        setCheck(true);
-    };
-
-    const onBlur = (): void => {
-        setCheck(false);
     };
 
     const isValid = (): boolean => {
@@ -380,39 +350,11 @@ export default function ReturnForm(props: Props) {
                 </Grid>
             </Grid>
             <Box>
-                <TextField
-                    inputRef={inputRef}
-                    value={rfid}
-                    size="small"
-                    onChange={onChange}
-                    onKeyDown={onKeyDown}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    sx={{
-                        position: "absolute",
-                        left: -1000,
-                    }}
+                <RfidButton
+                    rfid={rfid}
+                    setRfid={setRfid}
+                    onEnter={() => selectHistory(rfid)}
                 />
-                <Button
-                    variant="contained"
-                    size="large"
-                    color={check ? "success" : "error"}
-                    sx={{
-                        animation: check ? "ping 1s infinite" : "none",
-                        "@keyframes ping": {
-                            "0%": { opacity: 1 },
-                            "50%": { opacity: 0.75 },
-                            "100%": { opacity: 1 },
-                        },
-                    }}
-                    onClick={() => {
-                        if (inputRef.current) {
-                            inputRef.current.focus();
-                        }
-                    }}
-                >
-                    RFID ({check ? "ON" : "OFF"})
-                </Button>
                 <Button
                     variant="contained"
                     size="large"

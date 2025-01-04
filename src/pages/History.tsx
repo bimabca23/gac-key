@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Grid2 as Grid, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import moment from "moment";
 import { useEffect, useState } from "react";
@@ -85,16 +85,23 @@ export default function HistoryPage() {
 
     return (
         <Box p={5}>
-            <Box>
-                <Button
-                    color="success"
-                    variant="contained"
-                    sx={{ float: "right", mb: 3 }}
-                    onClick={exportCsv}
-                >
-                    Export
-                </Button>
-            </Box>
+            <Grid container>
+                <Grid size={4}>
+                    <Typography fontSize={35} mb={2}>
+                        History
+                    </Typography>
+                </Grid>
+                <Grid size={8}>
+                    <Button
+                        color="success"
+                        variant="contained"
+                        sx={{ float: "right", mb: 3 }}
+                        onClick={exportCsv}
+                    >
+                        Export
+                    </Button>
+                </Grid>
+            </Grid>
             <HistoryTable historyList={historyList} />
         </Box>
     );
