@@ -1,7 +1,7 @@
-import { Button, Grid2 as Grid, Typography } from "@mui/material";
+import { Button, Grid2 as Grid, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import HistoryTable from "../components/HistoryTable";
 import { GetHistorysResp } from "../types/history/GetHistorysResp";
 import { History } from "../types/history/History";
@@ -10,6 +10,9 @@ import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 export default function HistoryPage() {
     const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
     const [historyList, setHistoryList] = useState<History[]>([]);
+    const [filteredHistoryList, setFilteredHistoryList] = useState<History[]>(
+        []
+    );
 
     useEffect(() => {
         getHistorys();
@@ -23,6 +26,11 @@ export default function HistoryPage() {
                 next: (response: GetHistorysResp) => {
                     if (response.errorSchema.errorCode === 200) {
                         setHistoryList(
+                            response.outputSchema.filter(
+                                (history) => history.status === "Inactive"
+                            )
+                        );
+                        setFilteredHistoryList(
                             response.outputSchema.filter(
                                 (history) => history.status === "Inactive"
                             )
@@ -50,7 +58,7 @@ export default function HistoryPage() {
             ],
         ];
 
-        historyList.forEach((history, index) => {
+        filteredHistoryList.forEach((history, index) => {
             rows.push([
                 (index + 1).toString(),
                 history.passId,
@@ -83,6 +91,23 @@ export default function HistoryPage() {
         link.click();
     };
 
+    const filterData = (
+        e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ): void => {
+        if (e.target.value !== "") {
+            setFilteredHistoryList(
+                historyList.filter(
+                    (history) =>
+                        moment(history.returnTime)
+                            .utc()
+                            .format("YYYY-MM-DD") === e.target.value
+                )
+            );
+        } else {
+            setFilteredHistoryList(historyList);
+        }
+    };
+
     return (
         <Box p={5}>
             <Grid container>
@@ -95,14 +120,21 @@ export default function HistoryPage() {
                     <Button
                         color="success"
                         variant="contained"
-                        sx={{ float: "right", mb: 3 }}
+                        sx={{ float: "right" }}
                         onClick={exportCsv}
                     >
                         Export
                     </Button>
+                    <TextField
+                        defaultValue=""
+                        type="date"
+                        onChange={filterData}
+                        size="small"
+                        sx={{ float: "right", mr: 2 }}
+                    />
                 </Grid>
             </Grid>
-            <HistoryTable historyList={historyList} />
+            <HistoryTable historyList={filteredHistoryList} />
         </Box>
     );
 }
