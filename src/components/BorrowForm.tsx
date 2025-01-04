@@ -31,7 +31,7 @@ export default function BorrowForm(props: Props) {
         initial: props.selectedPic.initial,
         passId: "",
         purpose: "",
-        time: moment().toISOString(),
+        time: moment().add(7, 'hours').toISOString(),
         keyList: [],
     });
     const [rfid, setRfid] = useState<string>("");

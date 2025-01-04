@@ -25,7 +25,7 @@ interface Props {
 export default function ReturnForm(props: Props) {
     const [returnReq, setReturnReq] = useState<ReturnReq>({
         initial: props.selectedPic.initial,
-        time: moment().toISOString(),
+        time: moment().add(7, 'hours').toISOString(),
         historyList: props.historyList,
     });
     const [rfid, setRfid] = useState<string>("");

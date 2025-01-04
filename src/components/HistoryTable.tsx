@@ -137,12 +137,12 @@ export default function HistoryTable(props: Props) {
                                 </TableCell>
                                 <TableCell align="center">
                                     {moment(history.borrowTime)
-                                        .utcOffset(7)
+                                        .utc()
                                         .format("DD/MM/YY")}
                                 </TableCell>
                                 <TableCell align="center">
                                     {moment(history.borrowTime)
-                                        .utcOffset(7)
+                                        .utc()
                                         .format("HH:mm")}
                                 </TableCell>
                                 <TableCell align="center">
@@ -155,14 +155,14 @@ export default function HistoryTable(props: Props) {
                                     {history.returnTime === ""
                                         ? ""
                                         : moment(history.returnTime)
-                                              .utcOffset(7)
+                                              .utc()
                                               .format("DD/MM/YY")}
                                 </TableCell>
                                 <TableCell align="center">
                                     {history.returnTime === ""
                                         ? ""
                                         : moment(history.returnTime)
-                                              .utcOffset(7)
+                                              .utc()
                                               .format("HH:mm")}
                                 </TableCell>
                                 <TableCell align="center">
