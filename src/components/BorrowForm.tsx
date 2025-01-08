@@ -31,14 +31,15 @@ export default function BorrowForm(props: Props) {
         initial: props.selectedPic.initial,
         passId: "",
         purpose: "",
-        time: moment().add(7, 'hours').toISOString(),
-        keyList: [],
+        time: moment().add(7, "hours").toISOString(),
+        keyIdList: [],
     });
+    const [selectedKey, setSelectedKey] = useState<Key[]>([]);
     const [rfid, setRfid] = useState<string>("");
 
     const lastKey = (): Key => {
-        if (borrowReq.keyList.length) {
-            return borrowReq.keyList[borrowReq.keyList.length - 1];
+        if (selectedKey.length) {
+            return selectedKey[selectedKey.length - 1];
         }
         return {
             id: 0,
@@ -55,14 +56,11 @@ export default function BorrowForm(props: Props) {
             (key) => key.rfid === rfid
         );
         if (filterKey) {
-            setBorrowReq((prevBorrowReq) => {
-                if (!prevBorrowReq.keyList.includes(filterKey)) {
-                    return {
-                        ...prevBorrowReq,
-                        keyList: [...prevBorrowReq.keyList, filterKey],
-                    };
+            setSelectedKey((prevSelectedKey) => {
+                if (!prevSelectedKey.includes(filterKey)) {
+                    return [...prevSelectedKey, filterKey];
                 }
-                return prevBorrowReq;
+                return prevSelectedKey;
             });
         }
     };
@@ -71,7 +69,7 @@ export default function BorrowForm(props: Props) {
         return (
             borrowReq.passId !== "" &&
             borrowReq.purpose !== "" &&
-            borrowReq.keyList.length !== 0
+            selectedKey.length !== 0
         );
     };
 
@@ -240,9 +238,9 @@ export default function BorrowForm(props: Props) {
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
-                            {borrowReq.keyList.length ? (
+                            {selectedKey.length ? (
                                 <TableBody>
-                                    {borrowReq.keyList.map((key, index) => (
+                                    {selectedKey.map((key, index) => (
                                         <TableRow
                                             key={key.id}
                                             sx={{
@@ -294,7 +292,12 @@ export default function BorrowForm(props: Props) {
                     size="large"
                     sx={{ float: "right" }}
                     disabled={!isValid()}
-                    onClick={() => props.borrowKey(borrowReq)}
+                    onClick={() =>
+                        props.borrowKey({
+                            ...borrowReq,
+                            keyIdList: selectedKey.map((key) => key.id),
+                        })
+                    }
                 >
                     SAVE
                 </Button>
