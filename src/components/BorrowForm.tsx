@@ -4,6 +4,7 @@ import {
     Grid2 as Grid,
     TextField,
     Typography,
+    colors,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -21,6 +22,7 @@ import RfidButton from "./RfidButton";
 
 interface Props {
     keyList: Key[];
+    unavailableKey: Key[];
     selectedPic: Pic;
     borrowKey(request: BorrowReq): void;
     onClose(): void;
@@ -35,11 +37,21 @@ export default function BorrowForm(props: Props) {
         keyIdList: [],
     });
     const [selectedKey, setSelectedKey] = useState<Key[]>([]);
+    const [scannedKey, setScannedKey] = useState<Key[]>([]);
+    const availableKey: Key[] = props.keyList.filter(
+        (key) =>
+            !(
+                props.unavailableKey
+                    .map((unkey) => unkey.id)
+                    .includes(key.id) ||
+                selectedKey.map((skey) => skey.id).includes(key.id)
+            )
+    );
     const [rfid, setRfid] = useState<string>("");
 
     const lastKey = (): Key => {
-        if (selectedKey.length) {
-            return selectedKey[selectedKey.length - 1];
+        if (scannedKey.length) {
+            return scannedKey[scannedKey.length - 1];
         }
         return {
             id: 0,
@@ -51,9 +63,9 @@ export default function BorrowForm(props: Props) {
         };
     };
 
-    const selectKey = (rfid: string): void => {
+    const selectKey = (id: number): void => {
         const filterKey: Key | undefined = props.keyList.find(
-            (key) => key.rfid === rfid
+            (key) => key.id === id
         );
         if (filterKey) {
             setSelectedKey((prevSelectedKey) => {
@@ -65,11 +77,25 @@ export default function BorrowForm(props: Props) {
         }
     };
 
+    const scanKey = (rfid: string): void => {
+        const filterKey: Key | undefined = props.keyList.find(
+            (key) => key.rfid === rfid
+        );
+        if (filterKey) {
+            setScannedKey((prevScannedKey) => {
+                if (!prevScannedKey.includes(filterKey)) {
+                    return [...prevScannedKey, filterKey];
+                }
+                return prevScannedKey;
+            });
+        }
+    };
+
     const isValid = (): boolean => {
         return (
             borrowReq.passId !== "" &&
             borrowReq.purpose !== "" &&
-            selectedKey.length !== 0
+            scannedKey.length !== 0
         );
     };
 
@@ -207,8 +233,12 @@ export default function BorrowForm(props: Props) {
                         </Grid>
                     </Grid>
                 </Grid>
-                <Grid size={9} maxHeight={300} overflow="auto">
-                    <TableContainer component={Paper}>
+                <Grid size={9}>
+                    <Typography fontWeight="bold">Borrow Key</Typography>
+                    <TableContainer
+                        component={Paper}
+                        sx={{ maxHeight: 300, overflow: "auto" }}
+                    >
                         <Table sx={{ minWidth: 650 }} aria-label="simple table">
                             <TableHead>
                                 <TableRow>
@@ -236,11 +266,114 @@ export default function BorrowForm(props: Props) {
                                     >
                                         Quantity
                                     </TableCell>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontWeight: "bold" }}
+                                    >
+                                        Location
+                                    </TableCell>
                                 </TableRow>
                             </TableHead>
                             {selectedKey.length ? (
                                 <TableBody>
                                     {selectedKey.map((key, index) => (
+                                        <TableRow
+                                            key={key.id}
+                                            sx={{
+                                                "&:last-child td, &:last-child th":
+                                                    { border: 0 },
+                                                background: scannedKey.includes(
+                                                    key
+                                                )
+                                                    ? colors.green[500]
+                                                    : "transparent",
+                                            }}
+                                        >
+                                            <TableCell align="center">
+                                                {index + 1}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {key.type}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {key.name}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {key.quantity} Pcs
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {key.location}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            ) : (
+                                <TableBody>
+                                    <TableRow
+                                        sx={{
+                                            "&:last-child td, &:last-child th":
+                                                { border: 0 },
+                                        }}
+                                    >
+                                        <TableCell align="center" colSpan={6}>
+                                            No Data
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            )}
+                        </Table>
+                    </TableContainer>
+                    <Typography fontWeight="bold" mt={5}>
+                        Available Key
+                    </Typography>
+                    <TableContainer
+                        component={Paper}
+                        sx={{ maxHeight: 300, overflow: "auto" }}
+                    >
+                        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontWeight: "bold" }}
+                                    >
+                                        #
+                                    </TableCell>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontWeight: "bold" }}
+                                    >
+                                        Type
+                                    </TableCell>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontWeight: "bold" }}
+                                    >
+                                        Name
+                                    </TableCell>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontWeight: "bold" }}
+                                    >
+                                        Quantity
+                                    </TableCell>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontWeight: "bold" }}
+                                    >
+                                        Location
+                                    </TableCell>
+                                    <TableCell
+                                        align="center"
+                                        sx={{ fontWeight: "bold" }}
+                                    >
+                                        Action
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            {availableKey.length ? (
+                                <TableBody>
+                                    {availableKey.map((key, index) => (
                                         <TableRow
                                             key={key.id}
                                             sx={{
@@ -259,6 +392,19 @@ export default function BorrowForm(props: Props) {
                                             </TableCell>
                                             <TableCell align="center">
                                                 {key.quantity} Pcs
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                {key.location}
+                                            </TableCell>
+                                            <TableCell align="center">
+                                                <Button
+                                                    size="small"
+                                                    onClick={() =>
+                                                        selectKey(key.id)
+                                                    }
+                                                >
+                                                    ADD
+                                                </Button>
                                             </TableCell>
                                         </TableRow>
                                     ))}
@@ -285,7 +431,7 @@ export default function BorrowForm(props: Props) {
                 <RfidButton
                     rfid={rfid}
                     setRfid={setRfid}
-                    onEnter={() => selectKey(rfid)}
+                    onEnter={() => scanKey(rfid)}
                 />
                 <Button
                     variant="contained"

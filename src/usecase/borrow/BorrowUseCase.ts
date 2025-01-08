@@ -22,7 +22,7 @@ export class BorrowUseCaseImpl implements BorrowUseCase {
             .filter((key) => request.keyIdList.includes(key.id))
             .map((key, index) => {
                 return {
-                    id: index + 10,
+                    id: index + historyList.length + 1,
                     passId: request.passId,
                     key: key,
                     purpose: request.purpose,

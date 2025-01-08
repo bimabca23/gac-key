@@ -286,7 +286,7 @@ export default function ReturnForm(props: Props) {
                                                 }}
                                             >
                                                 {moment(history.borrowTime)
-                                                    .utcOffset(7)
+                                                    .utc()
                                                     .format("DD/MM/YY")}
                                             </TableCell>
                                             <TableCell
@@ -300,7 +300,7 @@ export default function ReturnForm(props: Props) {
                                                 }}
                                             >
                                                 {moment(history.borrowTime)
-                                                    .utcOffset(7)
+                                                    .utc()
                                                     .format("HH:mm")}
                                             </TableCell>
                                             <TableCell

@@ -227,7 +227,10 @@ export default function DashboardPage() {
             >
                 <Box sx={{ ...modalStyle }}>
                     <BorrowForm
-                        keyList={keyList}
+                        keyList={keyList.filter((key) => key.type === "Main")}
+                        unavailableKey={historyList
+                            .filter((history) => history.status === "Active")
+                            .map((history) => history.key)}
                         selectedPic={selectedPic}
                         borrowKey={borrowKey}
                         onClose={() => setActionType(undefined)}
