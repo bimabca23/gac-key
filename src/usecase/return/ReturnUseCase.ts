@@ -15,11 +15,7 @@ export class ReturnUseCaseImpl implements ReturnUseCase {
             useCaseFactory.session().get("historyList")
         ) as History[];
         const updatedHistoryList: History[] = historyList.map((history) => {
-            if (
-                request.historyList
-                    .map((history) => history.id)
-                    .includes(history.id)
-            ) {
+            if (request.historyIdList.includes(history.id)) {
                 return {
                     ...history,
                     returnTime: request.time,

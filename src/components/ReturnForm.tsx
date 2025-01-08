@@ -25,9 +25,12 @@ interface Props {
 export default function ReturnForm(props: Props) {
     const [returnReq, setReturnReq] = useState<ReturnReq>({
         initial: props.selectedPic.initial,
-        time: moment().add(7, 'hours').toISOString(),
-        historyList: props.historyList,
+        time: moment().add(7, "hours").toISOString(),
+        historyIdList: [],
     });
+    const [selectedHistory, setSelectedHistory] = useState<History[]>(
+        props.historyList.filter((history) => history.status === "Active")
+    );
     const [rfid, setRfid] = useState<string>("");
     const [selectedKey, setSelectedKey] = useState<Key>({
         id: 0,
@@ -39,7 +42,7 @@ export default function ReturnForm(props: Props) {
     });
 
     const selectHistory = (rfid: string): void => {
-        const newHistory: History[] = returnReq.historyList.map((history) => {
+        const newHistory: History[] = selectedHistory.map((history) => {
             if (history.key.rfid === rfid) {
                 setSelectedKey(history.key);
                 return {
@@ -49,14 +52,13 @@ export default function ReturnForm(props: Props) {
             }
             return history;
         });
-        setReturnReq({ ...returnReq, historyList: newHistory });
+        setSelectedHistory(newHistory);
     };
 
     const isValid = (): boolean => {
         return (
-            returnReq.historyList.filter(
-                (history) => history.status === "Inactive"
-            ).length !== 0
+            selectedHistory.filter((history) => history.status === "Inactive")
+                .length !== 0
         );
     };
 
@@ -210,125 +212,123 @@ export default function ReturnForm(props: Props) {
                                     </TableCell>
                                 </TableRow>
                             </TableHead>
-                            {returnReq.historyList.length ? (
+                            {selectedHistory.length ? (
                                 <TableBody>
-                                    {returnReq.historyList.map(
-                                        (history, index) => (
-                                            <TableRow
-                                                key={history.id}
+                                    {selectedHistory.map((history, index) => (
+                                        <TableRow
+                                            key={history.id}
+                                            sx={{
+                                                "&:last-child td, &:last-child th":
+                                                    { border: 0 },
+                                                background:
+                                                    history.status ===
+                                                    "Inactive"
+                                                        ? colors.green[500]
+                                                        : "transparent",
+                                            }}
+                                        >
+                                            <TableCell
+                                                align="center"
                                                 sx={{
-                                                    "&:last-child td, &:last-child th":
-                                                        { border: 0 },
-                                                    background:
+                                                    color:
                                                         history.status ===
                                                         "Inactive"
-                                                            ? colors.green[500]
-                                                            : "transparent",
+                                                            ? "white"
+                                                            : "black",
                                                 }}
                                             >
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {index + 1}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {history.passId}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {history.key.name}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {history.purpose}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {moment(history.borrowTime)
-                                                        .utcOffset(7)
-                                                        .format("DD/MM/YY")}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {moment(history.borrowTime)
-                                                        .utcOffset(7)
-                                                        .format("HH:mm")}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {history.borrowPic}
-                                                </TableCell>
-                                                <TableCell
-                                                    align="center"
-                                                    sx={{
-                                                        color:
-                                                            history.status ===
-                                                            "Inactive"
-                                                                ? "white"
-                                                                : "black",
-                                                    }}
-                                                >
-                                                    {history.borrowSoc}
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    )}
+                                                {index + 1}
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color:
+                                                        history.status ===
+                                                        "Inactive"
+                                                            ? "white"
+                                                            : "black",
+                                                }}
+                                            >
+                                                {history.passId}
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color:
+                                                        history.status ===
+                                                        "Inactive"
+                                                            ? "white"
+                                                            : "black",
+                                                }}
+                                            >
+                                                {history.key.name}
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color:
+                                                        history.status ===
+                                                        "Inactive"
+                                                            ? "white"
+                                                            : "black",
+                                                }}
+                                            >
+                                                {history.purpose}
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color:
+                                                        history.status ===
+                                                        "Inactive"
+                                                            ? "white"
+                                                            : "black",
+                                                }}
+                                            >
+                                                {moment(history.borrowTime)
+                                                    .utcOffset(7)
+                                                    .format("DD/MM/YY")}
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color:
+                                                        history.status ===
+                                                        "Inactive"
+                                                            ? "white"
+                                                            : "black",
+                                                }}
+                                            >
+                                                {moment(history.borrowTime)
+                                                    .utcOffset(7)
+                                                    .format("HH:mm")}
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color:
+                                                        history.status ===
+                                                        "Inactive"
+                                                            ? "white"
+                                                            : "black",
+                                                }}
+                                            >
+                                                {history.borrowPic}
+                                            </TableCell>
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color:
+                                                        history.status ===
+                                                        "Inactive"
+                                                            ? "white"
+                                                            : "black",
+                                                }}
+                                            >
+                                                {history.borrowSoc}
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
                                 </TableBody>
                             ) : (
                                 <TableBody>
@@ -362,9 +362,11 @@ export default function ReturnForm(props: Props) {
                     onClick={() =>
                         props.returnKey({
                             ...returnReq,
-                            historyList: returnReq.historyList.filter(
-                                (history) => history.status === "Inactive"
-                            ),
+                            historyIdList: selectedHistory
+                                .filter(
+                                    (history) => history.status === "Inactive"
+                                )
+                                .map((history) => history.id),
                         })
                     }
                 >
