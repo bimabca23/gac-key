@@ -290,19 +290,64 @@ export default function BorrowForm(props: Props) {
                                                     : "transparent",
                                             }}
                                         >
-                                            <TableCell align="center">
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color: scannedKey.includes(
+                                                        key
+                                                    )
+                                                        ? "white"
+                                                        : "black",
+                                                }}
+                                            >
                                                 {index + 1}
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color: scannedKey.includes(
+                                                        key
+                                                    )
+                                                        ? "white"
+                                                        : "black",
+                                                }}
+                                            >
                                                 {key.type}
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color: scannedKey.includes(
+                                                        key
+                                                    )
+                                                        ? "white"
+                                                        : "black",
+                                                }}
+                                            >
                                                 {key.name}
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color: scannedKey.includes(
+                                                        key
+                                                    )
+                                                        ? "white"
+                                                        : "black",
+                                                }}
+                                            >
                                                 {key.quantity} Pcs
                                             </TableCell>
-                                            <TableCell align="center">
+                                            <TableCell
+                                                align="center"
+                                                sx={{
+                                                    color: scannedKey.includes(
+                                                        key
+                                                    )
+                                                        ? "white"
+                                                        : "black",
+                                                }}
+                                            >
                                                 {key.location}
                                             </TableCell>
                                         </TableRow>
