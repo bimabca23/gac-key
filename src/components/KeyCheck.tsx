@@ -19,6 +19,7 @@ export default function KeyCheck(props: Props) {
         rfid: "No",
         type: "Main",
         name: "",
+        room: "",
         quantity: 0,
         location: "",
     });
@@ -33,6 +34,7 @@ export default function KeyCheck(props: Props) {
                 rfid: "No",
                 type: "Main",
                 name: "",
+                room: "",
                 quantity: 0,
                 location: "",
             }
@@ -116,6 +118,7 @@ export default function KeyCheck(props: Props) {
                                     rfid: "No",
                                     type: "Main",
                                     name: "",
+                                    room: "",
                                     quantity: 0,
                                     location: "",
                                 })

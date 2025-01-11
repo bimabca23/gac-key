@@ -37,6 +37,7 @@ export default function ReturnForm(props: Props) {
         rfid: "No",
         type: "Main",
         name: "",
+        room: "",
         quantity: 0,
         location: "",
     });

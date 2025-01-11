@@ -58,6 +58,7 @@ export default function BorrowForm(props: Props) {
             rfid: "No",
             type: "Main",
             name: "",
+            room: "",
             quantity: 0,
             location: "",
         };

@@ -55,8 +55,9 @@ export default function HistoryPage() {
         let rows: string[][] = [
             [
                 "#",
-                "Pass ID",
+                "Room",
                 "Key",
+                "Pass ID",
                 "Purpose",
                 "Borrow Date",
                 "Borrow Clock",
@@ -72,8 +73,9 @@ export default function HistoryPage() {
         filteredHistoryList.forEach((history, index) => {
             rows.push([
                 (index + 1).toString(),
-                history.passId,
+                history.key.room,
                 history.key.name,
+                history.passId,
                 history.purpose,
                 moment(history.borrowTime).utc().format("DD/MM/YY"),
                 moment(history.borrowTime).utc().format("HH:mm"),
@@ -131,7 +133,7 @@ export default function HistoryPage() {
                 font: helveticaFont,
                 color: rgb(0, 0, 0),
             });
-            firstPage.drawText("Room", {
+            firstPage.drawText(history.key.room, {
                 x: 80,
                 y: height - 146 - index * 13.95,
                 size: 10,
@@ -211,7 +213,11 @@ export default function HistoryPage() {
 
         const pdfBytes = await pdfDoc.save();
 
-        download(pdfBytes, "export.pdf", "application/pdf");
+        download(
+            pdfBytes,
+            moment(date).utc().add(1, "days").format("DD-MM-YYYY"),
+            "application/pdf"
+        );
     };
 
     const filterData = (): void => {
