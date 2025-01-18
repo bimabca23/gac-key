@@ -1,9 +1,9 @@
 import { Observable, of } from "rxjs";
 import { BorrowReq } from "../../types/borrow/BorrowReq";
 import { BorrowResp } from "../../types/borrow/BorrowResp";
+import { History } from "../../types/history/History";
 import { Key } from "../../types/key/Key";
 import { UseCaseFactory, UseCaseFactoryImpl } from "../UseCaseFactory";
-import { History } from "../../types/history/History";
 
 export interface BorrowUseCase {
     execute(request: BorrowReq): Observable<BorrowResp>;

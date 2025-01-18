@@ -1,8 +1,8 @@
 import { Observable, of } from "rxjs";
+import { History } from "../../types/history/History";
 import { ReturnReq } from "../../types/return/ReturnReq";
 import { ReturnResp } from "../../types/return/ReturnResp";
 import { UseCaseFactory, UseCaseFactoryImpl } from "../UseCaseFactory";
-import { History } from "../../types/history/History";
 
 export interface ReturnUseCase {
     execute(request: ReturnReq): Observable<ReturnResp>;

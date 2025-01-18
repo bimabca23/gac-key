@@ -4,6 +4,7 @@ import download from "downloadjs";
 import moment from "moment";
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
 import { ChangeEvent, useEffect, useState } from "react";
+import * as XLSX from "xlsx";
 import HistoryTable from "../components/HistoryTable";
 import { GetHistorysResp } from "../types/history/GetHistorysResp";
 import { History } from "../types/history/History";
@@ -51,27 +52,41 @@ export default function HistoryPage() {
             });
     };
 
-    const exportCsv = (): void => {
-        let rows: string[][] = [
+    const exportExcel = (): void => {
+        const header: string[][] = [
             [
                 "#",
                 "Room",
                 "Key",
                 "Pass ID",
                 "Purpose",
-                "Borrow Date",
-                "Borrow Clock",
-                "Borrow PIC",
-                "Borrow SOC",
-                "Return Date",
-                "Return Clock",
-                "Return PIC",
-                "Return SOC",
+                "Borrow",
+                "",
+                "",
+                "",
+                "Return",
+                "",
+                "",
+                "",
+            ],
+            [
+                "",
+                "",
+                "",
+                "",
+                "",
+                "Date",
+                "Clock",
+                "PIC",
+                "SOC",
+                "Date",
+                "Clock",
+                "PIC",
+                "SOC",
             ],
         ];
-
-        filteredHistoryList.forEach((history, index) => {
-            rows.push([
+        const data: string[][] = filteredHistoryList.map((history, index) => {
+            return [
                 (index + 1).toString(),
                 history.key.room,
                 history.key.name,
@@ -85,23 +100,37 @@ export default function HistoryPage() {
                 moment(history.returnTime).utc().format("HH:mm"),
                 history.returnPic,
                 history.returnSoc,
-            ]);
+            ];
         });
 
-        let csvContent = "";
-        rows.forEach((row) => {
-            csvContent += row.join(",") + "\n";
-        });
-
-        const blob = new Blob([csvContent], {
-            type: "text/csv;charset=utf-8,",
-        });
-        const objUrl = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.setAttribute("href", objUrl);
-        link.setAttribute("download", "export.csv");
-        document.body.appendChild(link);
-        link.click();
+        const ws = XLSX.utils.aoa_to_sheet([...header, ...data]);
+        ws["!merges"] = [
+            { s: { r: 0, c: 0 }, e: { r: 1, c: 0 } },
+            { s: { r: 0, c: 1 }, e: { r: 1, c: 1 } },
+            { s: { r: 0, c: 2 }, e: { r: 1, c: 2 } },
+            { s: { r: 0, c: 3 }, e: { r: 1, c: 3 } },
+            { s: { r: 0, c: 4 }, e: { r: 1, c: 4 } },
+            { s: { r: 0, c: 5 }, e: { r: 0, c: 8 } },
+            { s: { r: 0, c: 9 }, e: { r: 0, c: 12 } },
+        ];
+        ws["!cols"] = [
+            { wch: 5 },
+            { wch: 25 },
+            { wch: 25 },
+            { wch: 10 },
+            { wch: 25 },
+            { wch: 10 },
+            { wch: 10 },
+            { wch: 10 },
+            { wch: 10 },
+            { wch: 10 },
+            { wch: 10 },
+            { wch: 10 },
+            { wch: 10 },
+        ];
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, "Data");
+        XLSX.writeFile(wb, "export.xlsx");
     };
 
     const exportPdf = async () => {
@@ -243,18 +272,18 @@ export default function HistoryPage() {
                         color="success"
                         variant="contained"
                         sx={{ float: "right" }}
-                        onClick={exportCsv}
+                        onClick={exportExcel}
                     >
-                        Export CSV
+                        Excel
                     </Button>
                     <Button
-                        color="success"
+                        color="error"
                         variant="contained"
                         sx={{ float: "right", mr: 2 }}
                         onClick={exportPdf}
                         disabled={date === ""}
                     >
-                        Export PDF
+                        PDF
                     </Button>
                     <TextField
                         value={date}

@@ -1,7 +1,7 @@
 import { Observable, of } from "rxjs";
 import { GetKeysResp } from "../../types/key/GetKeysResp";
-import { UseCaseFactory, UseCaseFactoryImpl } from "../UseCaseFactory";
 import { Key } from "../../types/key/Key";
+import { UseCaseFactory, UseCaseFactoryImpl } from "../UseCaseFactory";
 
 export interface GetKeysUseCase {
     execute(): Observable<GetKeysResp>;

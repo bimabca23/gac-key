@@ -1,7 +1,7 @@
 import { Observable, of } from "rxjs";
 import { GetHistorysResp } from "../../types/history/GetHistorysResp";
-import { UseCaseFactory, UseCaseFactoryImpl } from "../UseCaseFactory";
 import { History } from "../../types/history/History";
+import { UseCaseFactory, UseCaseFactoryImpl } from "../UseCaseFactory";
 
 export interface GetHistorysUseCase {
     execute(): Observable<GetHistorysResp>;
