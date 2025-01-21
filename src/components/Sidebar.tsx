@@ -1,5 +1,7 @@
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import HistoryIcon from "@mui/icons-material/History";
+import KeyIcon from "@mui/icons-material/Key";
+import PeopleIcon from "@mui/icons-material/People";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -42,6 +44,22 @@ export default function Sidebar(props: Props) {
                             <HistoryIcon />
                         </ListItemIcon>
                         <ListItemText primary={"History"} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={() => navigate("/key")}>
+                        <ListItemIcon>
+                            <KeyIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"Key"} />
+                    </ListItemButton>
+                </ListItem>
+                <ListItem disablePadding>
+                    <ListItemButton onClick={() => navigate("/pic")}>
+                        <ListItemIcon>
+                            <PeopleIcon />
+                        </ListItemIcon>
+                        <ListItemText primary={"PIC"} />
                     </ListItemButton>
                 </ListItem>
             </List>
