@@ -54,12 +54,7 @@ export default function KeyCheck(props: Props) {
                         </Typography>
                         <Grid container>
                             <Grid size={3}>
-                                <Typography
-                                    fontSize={25}
-                                    color="text.secondary"
-                                >
-                                    Type
-                                </Typography>
+                                <Typography fontSize={25}>Type</Typography>
                             </Grid>
                             <Grid size={9}>
                                 <Typography fontSize={25}>
@@ -67,12 +62,7 @@ export default function KeyCheck(props: Props) {
                                 </Typography>
                             </Grid>
                             <Grid size={3}>
-                                <Typography
-                                    fontSize={25}
-                                    color="text.secondary"
-                                >
-                                    Name
-                                </Typography>
+                                <Typography fontSize={25}>Name</Typography>
                             </Grid>
                             <Grid size={9}>
                                 <Typography fontSize={25}>
@@ -80,12 +70,7 @@ export default function KeyCheck(props: Props) {
                                 </Typography>
                             </Grid>
                             <Grid size={3}>
-                                <Typography
-                                    fontSize={25}
-                                    color="text.secondary"
-                                >
-                                    Quantity
-                                </Typography>
+                                <Typography fontSize={25}>Quantity</Typography>
                             </Grid>
                             <Grid size={9}>
                                 <Typography fontSize={25}>
@@ -93,12 +78,7 @@ export default function KeyCheck(props: Props) {
                                 </Typography>
                             </Grid>
                             <Grid size={3}>
-                                <Typography
-                                    fontSize={25}
-                                    color="text.secondary"
-                                >
-                                    Location
-                                </Typography>
+                                <Typography fontSize={25}>Location</Typography>
                             </Grid>
                             <Grid size={9}>
                                 <Typography fontSize={25}>

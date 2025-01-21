@@ -4,7 +4,6 @@ import {
     Grid2 as Grid,
     TextField,
     Typography,
-    colors,
 } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -286,7 +285,7 @@ export default function BorrowForm(props: Props) {
                                                 background: scannedKey.includes(
                                                     key
                                                 )
-                                                    ? colors.green[500]
+                                                    ? "success.main"
                                                     : "transparent",
                                             }}
                                         >

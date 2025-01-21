@@ -1,4 +1,4 @@
-import { Box, Button, Grid2 as Grid, Typography, colors } from "@mui/material";
+import { Box, Button, Grid2 as Grid, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -224,7 +224,7 @@ export default function ReturnForm(props: Props) {
                                                 background:
                                                     history.status ===
                                                     "Inactive"
-                                                        ? colors.green[500]
+                                                        ? "success.main"
                                                         : "transparent",
                                             }}
                                         >

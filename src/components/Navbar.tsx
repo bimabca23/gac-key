@@ -26,7 +26,10 @@ export default function Navbar() {
     return (
         <AppBar position="static">
             <Box>
-                <Toolbar disableGutters>
+                <Toolbar
+                    sx={{ backgroundColor: "background.default" }}
+                    disableGutters
+                >
                     <Box sx={{ flexGrow: 1, display: "flex" }}>
                         <IconButton
                             size="large"
@@ -47,7 +50,7 @@ export default function Navbar() {
                             flexGrow: 1,
                             fontFamily: "monospace",
                             fontWeight: 700,
-                            color: "inherit",
+                            color: "primary.main",
                             textDecoration: "none",
                         }}
                     >

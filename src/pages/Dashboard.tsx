@@ -1,4 +1,4 @@
-import { Modal, SxProps, Typography } from "@mui/material";
+import { Modal, Paper, SxProps, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import ActionBox from "../components/ActionBox";
@@ -27,7 +27,6 @@ const modalStyle: SxProps = {
     left: "50%",
     transform: "translate(-50%, -50%)",
     width: "80vw",
-    background: "white",
     boxShadow: 24,
     p: 2,
 };
@@ -189,43 +188,43 @@ export default function DashboardPage() {
                 open={modalTotalKeys}
                 onClose={() => setModalTotalKeys(false)}
             >
-                <Box sx={{ ...modalStyle }}>
+                <Paper sx={{ ...modalStyle }}>
                     <KeyTable keyList={keyList} />
-                </Box>
+                </Paper>
             </Modal>
             <Modal open={modalMainKeys} onClose={() => setModalMainKeys(false)}>
-                <Box sx={{ ...modalStyle }}>
+                <Paper sx={{ ...modalStyle }}>
                     <KeyTable
                         keyList={keyList.filter((key) => key.type === "Main")}
                     />
-                </Box>
+                </Paper>
             </Modal>
             <Modal open={modalHistory} onClose={() => setModalHistorys(false)}>
-                <Box sx={{ ...modalStyle }}>
+                <Paper sx={{ ...modalStyle }}>
                     <HistoryTable
                         historyList={historyList.filter(
                             (history) => history.status === "Inactive"
                         )}
                     />
-                </Box>
+                </Paper>
             </Modal>
             <Modal
                 open={modalUnavailableKeys}
                 onClose={() => setModalUnavailableKeys(false)}
             >
-                <Box sx={{ ...modalStyle }}>
+                <Paper sx={{ ...modalStyle }}>
                     <HistoryTable
                         historyList={historyList.filter(
                             (history) => history.status === "Active"
                         )}
                     />
-                </Box>
+                </Paper>
             </Modal>
             <Modal
                 open={actionType === "Borrow"}
                 onClose={() => setActionType(undefined)}
             >
-                <Box sx={{ ...modalStyle }}>
+                <Paper sx={{ ...modalStyle }}>
                     <BorrowForm
                         keyList={keyList.filter((key) => key.type === "Main")}
                         unavailableKey={historyList
@@ -235,13 +234,13 @@ export default function DashboardPage() {
                         borrowKey={borrowKey}
                         onClose={() => setActionType(undefined)}
                     />
-                </Box>
+                </Paper>
             </Modal>
             <Modal
                 open={actionType === "Return"}
                 onClose={() => setActionType(undefined)}
             >
-                <Box sx={{ ...modalStyle }}>
+                <Paper sx={{ ...modalStyle }}>
                     <ReturnForm
                         keyList={keyList}
                         selectedPic={selectedPic}
@@ -251,7 +250,7 @@ export default function DashboardPage() {
                         returnKey={returnKey}
                         onClose={() => setActionType(undefined)}
                     />
-                </Box>
+                </Paper>
             </Modal>
         </Box>
     );

@@ -259,6 +259,10 @@ export default function HistoryPage() {
         );
     };
 
+    const available = (): boolean => {
+        return date !== "" && filteredHistoryList.length !== 0;
+    };
+
     return (
         <Box p={5}>
             <Grid container>
@@ -277,11 +281,10 @@ export default function HistoryPage() {
                         Excel
                     </Button>
                     <Button
-                        color="error"
+                        color={available() ? "error" : "secondary"}
                         variant="contained"
                         sx={{ float: "right", mr: 2 }}
-                        onClick={exportPdf}
-                        disabled={date === ""}
+                        onClick={available() ? exportPdf : () => {}}
                     >
                         PDF
                     </Button>

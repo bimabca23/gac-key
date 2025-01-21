@@ -1,4 +1,3 @@
-import { colors } from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
@@ -23,9 +22,7 @@ export default function CountCard(props: Props) {
                 <Fragment>
                     <CardContent>
                         <Typography fontSize={60}>{props.count}</Typography>
-                        <Typography fontSize={30} color={colors.grey[700]}>
-                            {props.text}
-                        </Typography>
+                        <Typography fontSize={30}>{props.text}</Typography>
                     </CardContent>
                     <CardActions>
                         <Button onClick={props.click}>Detail</Button>
