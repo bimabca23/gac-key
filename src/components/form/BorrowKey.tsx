@@ -14,10 +14,10 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import moment from "moment";
 import { ChangeEvent, useState } from "react";
-import { BorrowReq } from "../types/borrow/BorrowReq";
-import { Key } from "../types/key/Key";
-import { Pic } from "../types/pic/Pic";
-import RfidButton from "./RfidButton";
+import { BorrowReq } from "../../types/borrow/BorrowReq";
+import { Key } from "../../types/key/Key";
+import { Pic } from "../../types/pic/Pic";
+import RfidButton from "../RfidButton";
 
 interface Props {
     keyList: Key[];
@@ -27,7 +27,7 @@ interface Props {
     onClose(): void;
 }
 
-export default function BorrowForm(props: Props) {
+export default function BorrowKeyForm(props: Props) {
     const [borrowReq, setBorrowReq] = useState<BorrowReq>({
         initial: props.selectedPic.initial,
         passId: "",

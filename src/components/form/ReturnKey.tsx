@@ -8,11 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import moment from "moment";
 import { useState } from "react";
-import { History } from "../types/history/History";
-import { Key } from "../types/key/Key";
-import { Pic } from "../types/pic/Pic";
-import { ReturnReq } from "../types/return/ReturnReq";
-import RfidButton from "./RfidButton";
+import { History } from "../../types/history/History";
+import { Key } from "../../types/key/Key";
+import { Pic } from "../../types/pic/Pic";
+import { ReturnReq } from "../../types/return/ReturnReq";
+import RfidButton from "../RfidButton";
 
 interface Props {
     keyList: Key[];
@@ -22,7 +22,7 @@ interface Props {
     onClose(): void;
 }
 
-export default function ReturnForm(props: Props) {
+export default function ReturnKeyForm(props: Props) {
     const [returnReq, setReturnReq] = useState<ReturnReq>({
         initial: props.selectedPic.initial,
         time: moment().add(7, "hours").toISOString(),

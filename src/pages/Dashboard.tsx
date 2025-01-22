@@ -2,12 +2,12 @@ import { Modal, Paper, SxProps, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { useEffect, useState } from "react";
 import ActionBox from "../components/ActionBox";
-import BorrowForm from "../components/BorrowForm";
+import BorrowKeyForm from "../components/form/BorrowKey";
 import CountCard from "../components/CountCard";
 import HistoryTable from "../components/HistoryTable";
 import KeyCheck from "../components/KeyCheck";
 import KeyTable from "../components/KeyTable";
-import ReturnForm from "../components/ReturnForm";
+import ReturnKeyForm from "../components/form/ReturnKey";
 import { BorrowReq } from "../types/borrow/BorrowReq";
 import { BorrowResp } from "../types/borrow/BorrowResp";
 import { GetHistorysResp } from "../types/history/GetHistorysResp";
@@ -225,7 +225,7 @@ export default function DashboardPage() {
                 onClose={() => setActionType(undefined)}
             >
                 <Paper sx={{ ...modalStyle }}>
-                    <BorrowForm
+                    <BorrowKeyForm
                         keyList={keyList.filter((key) => key.type === "Main")}
                         unavailableKey={historyList
                             .filter((history) => history.status === "Active")
@@ -241,7 +241,7 @@ export default function DashboardPage() {
                 onClose={() => setActionType(undefined)}
             >
                 <Paper sx={{ ...modalStyle }}>
-                    <ReturnForm
+                    <ReturnKeyForm
                         keyList={keyList}
                         selectedPic={selectedPic}
                         historyList={historyList.filter(
