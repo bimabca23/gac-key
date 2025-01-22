@@ -29,6 +29,7 @@ const theme = createTheme({
         },
         text: {
             primary: "#fff",
+            secondary: "#000",
             disabled: "#ccc",
         },
         background: {
@@ -47,6 +48,11 @@ const theme = createTheme({
                 root: {
                     background: "#232230",
                     borderRadius: 4,
+                    "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                            borderColor: "#fff",
+                        },
+                    },
                 },
             },
         },

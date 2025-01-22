@@ -107,7 +107,6 @@ export default function BorrowKeyForm(props: Props) {
                         <Grid size={3}>
                             <Typography
                                 variant="body1"
-                                color="text.secondary"
                                 height="100%"
                                 lineHeight={2.5}
                             >
@@ -133,7 +132,6 @@ export default function BorrowKeyForm(props: Props) {
                         <Grid size={3}>
                             <Typography
                                 variant="body1"
-                                color="text.secondary"
                                 height="100%"
                                 lineHeight={2.5}
                             >
@@ -162,9 +160,7 @@ export default function BorrowKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Name
-                            </Typography>
+                            <Typography variant="body1">Name</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -172,9 +168,7 @@ export default function BorrowKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Initial
-                            </Typography>
+                            <Typography variant="body1">Initial</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -187,9 +181,7 @@ export default function BorrowKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Type
-                            </Typography>
+                            <Typography variant="body1">Type</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -197,9 +189,7 @@ export default function BorrowKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Name
-                            </Typography>
+                            <Typography variant="body1">Name</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -207,9 +197,7 @@ export default function BorrowKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Quantity
-                            </Typography>
+                            <Typography variant="body1">Quantity</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -222,9 +210,7 @@ export default function BorrowKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Location
-                            </Typography>
+                            <Typography variant="body1">Location</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -295,8 +281,8 @@ export default function BorrowKeyForm(props: Props) {
                                                     color: scannedKey.includes(
                                                         key
                                                     )
-                                                        ? "white"
-                                                        : "black",
+                                                        ? "text.secondary"
+                                                        : "text.main",
                                                 }}
                                             >
                                                 {index + 1}
@@ -307,8 +293,8 @@ export default function BorrowKeyForm(props: Props) {
                                                     color: scannedKey.includes(
                                                         key
                                                     )
-                                                        ? "white"
-                                                        : "black",
+                                                        ? "text.secondary"
+                                                        : "text.main",
                                                 }}
                                             >
                                                 {key.type}
@@ -319,8 +305,8 @@ export default function BorrowKeyForm(props: Props) {
                                                     color: scannedKey.includes(
                                                         key
                                                     )
-                                                        ? "white"
-                                                        : "black",
+                                                        ? "text.secondary"
+                                                        : "text.main",
                                                 }}
                                             >
                                                 {key.name}
@@ -331,8 +317,8 @@ export default function BorrowKeyForm(props: Props) {
                                                     color: scannedKey.includes(
                                                         key
                                                     )
-                                                        ? "white"
-                                                        : "black",
+                                                        ? "text.secondary"
+                                                        : "text.main",
                                                 }}
                                             >
                                                 {key.quantity} Pcs
@@ -343,8 +329,8 @@ export default function BorrowKeyForm(props: Props) {
                                                     color: scannedKey.includes(
                                                         key
                                                     )
-                                                        ? "white"
-                                                        : "black",
+                                                        ? "text.secondary"
+                                                        : "text.main",
                                                 }}
                                             >
                                                 {key.location}
@@ -479,15 +465,20 @@ export default function BorrowKeyForm(props: Props) {
                     onEnter={() => scanKey(rfid)}
                 />
                 <Button
+                    color={isValid() ? "primary" : "secondary"}
                     variant="contained"
                     size="large"
                     sx={{ float: "right" }}
-                    disabled={!isValid()}
-                    onClick={() =>
-                        props.borrowKey({
-                            ...borrowReq,
-                            keyIdList: selectedKey.map((key) => key.id),
-                        })
+                    onClick={
+                        isValid()
+                            ? () =>
+                                  props.borrowKey({
+                                      ...borrowReq,
+                                      keyIdList: selectedKey.map(
+                                          (key) => key.id
+                                      ),
+                                  })
+                            : () => {}
                     }
                 >
                     SAVE

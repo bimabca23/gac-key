@@ -74,9 +74,7 @@ export default function ReturnKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Name
-                            </Typography>
+                            <Typography variant="body1">Name</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -84,9 +82,7 @@ export default function ReturnKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Initial
-                            </Typography>
+                            <Typography variant="body1">Initial</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -99,9 +95,7 @@ export default function ReturnKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Type
-                            </Typography>
+                            <Typography variant="body1">Type</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -109,9 +103,7 @@ export default function ReturnKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Name
-                            </Typography>
+                            <Typography variant="body1">Name</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -119,9 +111,7 @@ export default function ReturnKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Quantity
-                            </Typography>
+                            <Typography variant="body1">Quantity</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -134,9 +124,7 @@ export default function ReturnKeyForm(props: Props) {
                             </Typography>
                         </Grid>
                         <Grid size={3}>
-                            <Typography variant="body1" color="text.secondary">
-                                Location
-                            </Typography>
+                            <Typography variant="body1">Location</Typography>
                         </Grid>
                         <Grid size={9}>
                             <Typography variant="body1">
@@ -356,19 +344,23 @@ export default function ReturnKeyForm(props: Props) {
                     onEnter={() => selectHistory(rfid)}
                 />
                 <Button
+                    color={isValid() ? "primary" : "secondary"}
                     variant="contained"
                     size="large"
                     sx={{ float: "right" }}
-                    disabled={!isValid()}
-                    onClick={() =>
-                        props.returnKey({
-                            ...returnReq,
-                            historyIdList: selectedHistory
-                                .filter(
-                                    (history) => history.status === "Inactive"
-                                )
-                                .map((history) => history.id),
-                        })
+                    onClick={
+                        isValid()
+                            ? () =>
+                                  props.returnKey({
+                                      ...returnReq,
+                                      historyIdList: selectedHistory
+                                          .filter(
+                                              (history) =>
+                                                  history.status === "Inactive"
+                                          )
+                                          .map((history) => history.id),
+                                  })
+                            : () => {}
                     }
                 >
                     SAVE
