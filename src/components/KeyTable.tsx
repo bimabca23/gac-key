@@ -30,6 +30,9 @@ export default function KeyTable(props: Props) {
                             Name
                         </TableCell>
                         <TableCell align="center" sx={{ fontWeight: "bold" }}>
+                            Room
+                        </TableCell>
+                        <TableCell align="center" sx={{ fontWeight: "bold" }}>
                             Quantity
                         </TableCell>
                         <TableCell align="center" sx={{ fontWeight: "bold" }}>
@@ -54,6 +57,7 @@ export default function KeyTable(props: Props) {
                                 <TableCell align="center">{key.rfid}</TableCell>
                                 <TableCell align="center">{key.type}</TableCell>
                                 <TableCell align="center">{key.name}</TableCell>
+                                <TableCell align="center">{key.room}</TableCell>
                                 <TableCell align="center">
                                     {key.quantity} Pcs
                                 </TableCell>

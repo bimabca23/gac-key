@@ -43,7 +43,7 @@ const theme = createTheme({
         },
     },
     components: {
-        MuiTextField: {
+        MuiFormControl: {
             styleOverrides: {
                 root: {
                     background: "#232230",
@@ -51,6 +51,9 @@ const theme = createTheme({
                     "& .MuiOutlinedInput-root": {
                         "& fieldset": {
                             borderColor: "#fff",
+                        },
+                        "& svg": {
+                            color: "#fff",
                         },
                     },
                 },
