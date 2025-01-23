@@ -3,6 +3,7 @@ import {
     GetHistorysUseCase,
     GetHistorysUseCaseImpl,
 } from "./history/GetHistorysUseCase";
+import { AddKeyUseCase, AddKeyUseCaseImpl } from "./key/AddKeyUseCase";
 import { GetKeysUseCase, GetKeysUseCaseImpl } from "./key/GetKeysUseCase";
 import { AddPicUseCase, AddPicUseCaseImpl } from "./pic/AddPicUseCase";
 import { GetPicsUseCase, GetPicsUseCaseImpl } from "./pic/GetPicsUseCase";
@@ -14,6 +15,7 @@ export interface UseCaseFactory {
     session(): SessionUseCase;
     // Key
     getKeys(): GetKeysUseCase;
+    addKey(): AddKeyUseCase;
     borrow(): BorrowUseCase;
     return(): ReturnUseCase;
     // History
@@ -31,6 +33,9 @@ export class UseCaseFactoryImpl implements UseCaseFactory {
     // Key
     getKeys(): GetKeysUseCase {
         return new GetKeysUseCaseImpl();
+    }
+    addKey(): AddKeyUseCase {
+        return new AddKeyUseCaseImpl();
     }
     borrow(): BorrowUseCase {
         return new BorrowUseCaseImpl();
