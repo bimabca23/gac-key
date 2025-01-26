@@ -6,6 +6,9 @@ import History from "./pages/History";
 import Key from "./pages/Key";
 import Pic from "./pages/Pic";
 import "./styles.css";
+import Login from "./pages/Login";
+import { UseCaseFactory, UseCaseFactoryImpl } from "./usecase/UseCaseFactory";
+import { useEffect, useState } from "react";
 
 const theme = createTheme({
     palette: {
@@ -70,19 +73,45 @@ const theme = createTheme({
 });
 
 export default function App() {
+    const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
+    const [isLogin, setIsLogin] = useState<boolean>(false);
+    const [ready, setReady] = useState<boolean>(false);
+    const pathList: string[] = ["/", "/history", "/key", "pic"];
+
+    useEffect(() => {
+        const login: boolean = useCaseFactory.user().isLogin();
+        const path: string = window.location.pathname;
+
+        setIsLogin(login);
+
+        if (
+            (login && path === "/login") ||
+            (!login && pathList.includes(path))
+        ) {
+            window.location.assign(login ? "/" : "/login");
+        } else {
+            setReady(true);
+        }
+    }, [pathList]);
+
     return (
         <ThemeProvider theme={theme}>
-            <Router>
-                <div className="App">
-                    <Navbar />
-                    <Routes>
-                        <Route path="/" element={<Dashboard />} />
-                        <Route path="/history" element={<History />} />
-                        <Route path="/key" element={<Key />} />
-                        <Route path="/pic" element={<Pic />} />
-                    </Routes>
-                </div>
-            </Router>
+            {ready ? (
+                <Router>
+                    <div className="App">
+                        {isLogin ? <Navbar /> : <></>}
+                        <Routes>
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/" element={<Dashboard />} />
+                            <Route path="/history" element={<History />} />
+                            <Route path="/key" element={<Key />} />
+                            <Route path="/pic" element={<Pic />} />
+                        </Routes>
+                    </div>
+                </Router>
+            ) : (
+                <></>
+            )}
         </ThemeProvider>
     );
 }

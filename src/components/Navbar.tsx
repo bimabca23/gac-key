@@ -5,15 +5,19 @@ import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import Sidebar from "./Sidebar";
+import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
+import { User } from "../types/user/User";
+import { Button } from "@mui/material";
 
 export default function Navbar() {
+    const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+    const user: User = JSON.parse(useCaseFactory.session().get("user"));
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);
@@ -21,6 +25,11 @@ export default function Navbar() {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const logout = (): void => {
+        useCaseFactory.user().logout();
+        window.location.reload();
     };
 
     return (
@@ -59,9 +68,17 @@ export default function Navbar() {
                     <Box sx={{ flexGrow: 0 }}>
                         <IconButton onClick={handleOpenUserMenu} sx={{ mr: 1 }}>
                             <Avatar
-                                alt="Bima Tribuana Putra"
-                                src="/static/profile.png"
-                            />
+                                sx={{
+                                    backgroundColor: "background.default",
+                                    color: "primary.main",
+                                    border: 2,
+                                    borderColor: "primary.main",
+                                    fontWeight: "bold",
+                                    fontSize: 17,
+                                }}
+                            >
+                                {user.initial}
+                            </Avatar>
                         </IconButton>
                         <Menu
                             sx={{ mt: "45px" }}
@@ -79,11 +96,22 @@ export default function Navbar() {
                             open={Boolean(anchorElUser)}
                             onClose={handleCloseUserMenu}
                         >
-                            <MenuItem onClick={handleCloseUserMenu}>
-                                <Typography sx={{ textAlign: "center" }}>
+                            <Typography sx={{ px: 2, pt: 1 }} fontWeight="bold">
+                                {user.name}
+                            </Typography>
+                            <Typography sx={{ px: 2, pb: 3 }}>
+                                {user.role}
+                            </Typography>
+                            <Box sx={{ px: 2, pb: 1 }}>
+                                <Button
+                                    fullWidth
+                                    onClick={logout}
+                                    color="error"
+                                    variant="outlined"
+                                >
                                     Logout
-                                </Typography>
-                            </MenuItem>
+                                </Button>
+                            </Box>
                         </Menu>
                     </Box>
                 </Toolbar>
