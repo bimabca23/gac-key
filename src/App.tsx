@@ -76,7 +76,7 @@ export default function App() {
     const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
     const [isLogin, setIsLogin] = useState<boolean>(false);
     const [ready, setReady] = useState<boolean>(false);
-    const pathList: string[] = ["/", "/history", "/key", "pic"];
+    const pathList: string[] = ["/", "/history", "/key", "/pic"];
 
     useEffect(() => {
         const login: boolean = useCaseFactory.user().isLogin();

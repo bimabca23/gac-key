@@ -15,9 +15,9 @@ import { Button } from "@mui/material";
 
 export default function Navbar() {
     const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
+    const user: User = useCaseFactory.user().get();
     const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
     const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-    const user: User = JSON.parse(useCaseFactory.session().get("user"));
 
     const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElUser(event.currentTarget);

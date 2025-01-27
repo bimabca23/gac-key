@@ -15,6 +15,7 @@ import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 import { AddKeyReq } from "../types/key/AddKeyReq";
 import { AddKeyResp } from "../types/key/AddKeyResp";
 import AddKeyForm from "../components/form/AddKey";
+import { User } from "../types/user/User";
 
 const modalStyle: SxProps = {
     position: "absolute",
@@ -29,6 +30,7 @@ const modalStyle: SxProps = {
 
 export default function KeyPage() {
     const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
+    const user: User = useCaseFactory.user().get();
     const [keyList, setKeyList] = useState<Key[]>([]);
     const [addKeyReq, setAddKeyReq] = useState<AddKeyReq>({
         rfid: "No",
@@ -86,16 +88,20 @@ export default function KeyPage() {
                         Key
                     </Typography>
                 </Grid>
-                <Grid size={8}>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        sx={{ float: "right" }}
-                        onClick={() => setModalAdd(true)}
-                    >
-                        ADD
-                    </Button>
-                </Grid>
+                {user.role === "Security Operation Center" ? (
+                    <Grid size={8}>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            sx={{ float: "right" }}
+                            onClick={() => setModalAdd(true)}
+                        >
+                            ADD
+                        </Button>
+                    </Grid>
+                ) : (
+                    <></>
+                )}
             </Grid>
             <KeyTable keyList={keyList} />
             <Modal open={modalAdd} onClose={() => setModalAdd(false)}>

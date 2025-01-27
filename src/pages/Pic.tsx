@@ -15,6 +15,7 @@ import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
 import AddPicForm from "../components/form/AddPic";
 import { AddPicReq } from "../types/pic/AddPicReq";
 import { AddPicResp } from "../types/pic/AddPicResp";
+import { User } from "../types/user/User";
 
 const modalStyle: SxProps = {
     position: "absolute",
@@ -29,6 +30,7 @@ const modalStyle: SxProps = {
 
 export default function PicPage() {
     const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
+    const user: User = useCaseFactory.user().get();
     const [picList, setPicList] = useState<Pic[]>([]);
     const [addPicReq, setAddPicReq] = useState<AddPicReq>({
         rfid: "",
@@ -80,16 +82,20 @@ export default function PicPage() {
                         PIC
                     </Typography>
                 </Grid>
-                <Grid size={8}>
-                    <Button
-                        color="primary"
-                        variant="contained"
-                        sx={{ float: "right" }}
-                        onClick={() => setModalAdd(true)}
-                    >
-                        ADD
-                    </Button>
-                </Grid>
+                {user.role === "Security Operation Center" ? (
+                    <Grid size={8}>
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            sx={{ float: "right" }}
+                            onClick={() => setModalAdd(true)}
+                        >
+                            ADD
+                        </Button>
+                    </Grid>
+                ) : (
+                    <></>
+                )}
             </Grid>
             <PicTable picList={picList} />
             <Modal open={modalAdd} onClose={() => setModalAdd(false)}>

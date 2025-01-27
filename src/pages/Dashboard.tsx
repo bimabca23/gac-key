@@ -19,6 +19,7 @@ import { Pic } from "../types/pic/Pic";
 import { ReturnReq } from "../types/return/ReturnReq";
 import { ReturnResp } from "../types/return/ReturnResp";
 import { UseCaseFactory, UseCaseFactoryImpl } from "../usecase/UseCaseFactory";
+import { User } from "../types/user/User";
 
 const modalStyle: SxProps = {
     position: "absolute",
@@ -33,6 +34,7 @@ const modalStyle: SxProps = {
 
 export default function DashboardPage() {
     const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
+    const user: User = useCaseFactory.user().get();
     const [keyList, setKeyList] = useState<Key[]>([]);
     const [historyList, setHistoryList] = useState<History[]>([]);
     const [picList, setPicList] = useState<Pic[]>([]);
@@ -174,16 +176,20 @@ export default function DashboardPage() {
                     click={() => setModalUnavailableKeys(true)}
                 />
             </Box>
-            <Box display={"flex"} flexGrow={0} gap={4} mt={4}>
-                <KeyCheck keyList={keyList} />
-                <ActionBox
-                    picList={picList}
-                    selectedPic={(pic: Pic) => setSelectedPic(pic)}
-                    setActionType={(
-                        actionType: "Borrow" | "Return" | undefined
-                    ) => setActionType(actionType)}
-                />
-            </Box>
+            {user.role === "Security Operation Center" ? (
+                <Box display={"flex"} flexGrow={0} gap={4} mt={4}>
+                    <KeyCheck keyList={keyList} />
+                    <ActionBox
+                        picList={picList}
+                        selectedPic={(pic: Pic) => setSelectedPic(pic)}
+                        setActionType={(
+                            actionType: "Borrow" | "Return" | undefined
+                        ) => setActionType(actionType)}
+                    />
+                </Box>
+            ) : (
+                <></>
+            )}
             <Modal
                 open={modalTotalKeys}
                 onClose={() => setModalTotalKeys(false)}
