@@ -7,6 +7,7 @@ import { BaseResp } from "../../types/BaseResp";
 
 export interface UserUseCase {
     isLogin(): boolean;
+    get(): User;
     login(request: LoginReq): Observable<LoginResp | BaseResp>;
     logout(): void;
 }
@@ -16,6 +17,12 @@ export class UserUseCaseImpl implements UserUseCase {
         const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
 
         return useCaseFactory.session().get("user") !== null;
+    }
+
+    get(): User {
+        const useCaseFactory: UseCaseFactory = new UseCaseFactoryImpl();
+
+        return JSON.parse(useCaseFactory.session().get("user"));
     }
 
     login(request: LoginReq): Observable<LoginResp | BaseResp> {
